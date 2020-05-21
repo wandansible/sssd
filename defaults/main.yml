@@ -1,0 +1,9 @@
+---
+sssd_packages:
+  - sssd
+  - libpam-sss
+  - libnss-sss
+
+sssd_config: {}
+sssd_config_file: /etc/sssd/sssd.conf
+sssd_mkhomedir: false
