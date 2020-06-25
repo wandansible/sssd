@@ -1,6 +1,7 @@
 ---
 sssd_packages:
   - sssd
+  - sssd-tools
   - libpam-sss
   - libnss-sss
 
