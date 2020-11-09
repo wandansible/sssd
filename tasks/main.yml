@@ -1,18 +1,23 @@
 ---
-- name: Install sssd packages
-  apt:
-    name: "{{ sssd_packages }}"
-    update_cache: yes
-    state: present
+- name: Create sssd config directory
+  file:
+    state: directory
+    path: "{{ sssd_config_file | dirname }}"
 
-- name: Configure {{ sssd_config_file }}
+- name: Configure sssd
   template:
     src: sssd.conf
     dest: "{{ sssd_config_file }}"
     owner: root
     group: root
-    mode: '0600'
+    mode: u=rw,g=,o=
   notify: restart sssd
+
+- name: Install sssd packages
+  apt:
+    name: "{{ sssd_packages }}"
+    update_cache: yes
+    state: present
 
 - name: Enable automatic home directory creation
   lineinfile:
