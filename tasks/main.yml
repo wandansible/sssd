@@ -18,6 +18,7 @@
     name: "{{ sssd_packages }}"
     update_cache: yes
     state: present
+  notify: restart systemd-logind
 
 - name: Enable automatic home directory creation
   lineinfile:
