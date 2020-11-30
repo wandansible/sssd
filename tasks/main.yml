@@ -40,3 +40,13 @@
     name: sssd
     state: started
     enabled: yes
+
+- name: Ensure sssd sockets are started and enabled
+  ansible.builtin.service:
+    name: sssd-{{ item }}.socket
+    state: started
+    enabled: yes
+  loop: "{{ sssd_config.sssd.services.split(',') | map('trim') }}"
+  when: 
+    - sssd_config.sssd.services is defined
+    - sssd_enable_sockets
