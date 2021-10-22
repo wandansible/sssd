@@ -47,6 +47,6 @@
     state: started
     enabled: yes
   loop: "{{ sssd_config.sssd.services.split(',') | map('trim') }}"
-  when: 
+  when:
     - sssd_config.sssd.services is defined
     - sssd_enable_sockets
