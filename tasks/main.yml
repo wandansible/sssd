@@ -16,6 +16,7 @@
 - name: Install sssd packages
   apt:
     name: "{{ sssd_packages }}"
+    install_recommends: no
     state: present
   notify: restart systemd-logind
 
