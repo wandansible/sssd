@@ -46,7 +46,7 @@
     name: sssd-{{ item }}.socket
     state: started
     enabled: yes
-  loop: "{{ sssd_config.sssd.services.split(',') | map('trim') }}"
+  loop: "{{ sssd_config.sssd.services | difference(sssd_disabled_sockets) }}"
   when:
     - sssd_config.sssd.services is defined
     - sssd_enable_sockets
