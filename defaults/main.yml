@@ -2,6 +2,7 @@
 sssd_packages:
   - sssd
   - sssd-tools
+  - sssd-dbus
   - libpam-sss
   - libnss-sss
 
