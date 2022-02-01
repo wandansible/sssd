@@ -10,9 +10,13 @@ sssd_config: {}
 sssd_config_file: /etc/sssd/sssd.conf
 sssd_mkhomedir: false
 
-sssd_enable_sockets: >-
+sssd_enable_activatable_responders: >-
   {{ ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('20.04', '>=') or
   ansible_distribution == 'Debian' and ansible_distribution_version is version('11', '>=') }}
+sssd_disabled_activatable_responders:
+  - nss
+  - pam
+  - pam-priv
 
 # sssd ldap config example:
 #sssd_config:
