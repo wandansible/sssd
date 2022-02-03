@@ -1,0 +1,18 @@
+---
+- name: Restart sssd
+  service:
+    name: sssd
+    state: restarted
+  listen: restart sssd
+
+- name: Stop disabled sssd activatable responders
+  ansible.builtin.service:
+    name: sssd-{{ item }}
+    state: stopped
+  loop: "{{ sssd_disabled_activatable_responders |
+            product(['socket', 'service']) |
+            map('join', '.') }}"
+  loop_control:
+    label: "sssd-{{ item }}"
+  when: sssd_enable_activatable_responders
+  listen: restart sssd

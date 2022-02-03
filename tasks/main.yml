@@ -13,7 +13,7 @@
     mode: u=rw,g=,o=
   notify: restart sssd
 
-- name: Ensure disabled sssd activatable responders are masked
+- name: Mask disabled sssd activatable responders
   ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: yes
@@ -24,7 +24,7 @@
     label: "sssd-{{ item }}"
   when: sssd_enable_activatable_responders
 
-- name: Ensure enabled sssd activatable responders are unmasked
+- name: Unmask enabled sssd activatable responders
   ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: no
@@ -60,18 +60,7 @@
     state: absent
   when: not sssd_mkhomedir
 
-- name: Ensure disabled sssd activatable responders are stopped
-  ansible.builtin.service:
-    name: sssd-{{ item }}
-    state: stopped
-  loop: "{{ sssd_disabled_activatable_responders |
-            product(['socket', 'service']) |
-            map('join', '.') }}"
-  loop_control:
-    label: "sssd-{{ item }}"
-  when: sssd_enable_activatable_responders
-
-- name: Ensure enabled sssd activatable responder sockets are enabled
+- name: Enable configured sssd activatable responder sockets
   ansible.builtin.service:
     name: sssd-{{ item }}.socket
     enabled: yes
@@ -82,8 +71,8 @@
     - sssd_config.sssd.services is defined
     - sssd_enable_activatable_responders
 
-- name: Ensure sssd service is started and enabled
+- name: Enable sssd service
   ansible.builtin.service:
     name: sssd
-    state: started
     enabled: yes
+  notify: restart sssd

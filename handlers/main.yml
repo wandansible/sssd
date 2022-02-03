@@ -1,8 +1,5 @@
 ---
-- name: restart sssd
-  service:
-    name: sssd
-    state: restarted
+- ansible.builtin.import_tasks: restart-sssd.yml
 
 - name: restart systemd-logind
   service:
