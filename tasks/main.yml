@@ -14,7 +14,7 @@
   notify: restart sssd
 
 - name: Ensure disabled sssd activatable responders are masked
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: yes
   loop: "{{ sssd_disabled_activatable_responders |
@@ -25,7 +25,7 @@
   when: sssd_enable_activatable_responders
 
 - name: Ensure enabled sssd activatable responders are unmasked
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: no
   loop: "{{ sssd_config.sssd.services |
