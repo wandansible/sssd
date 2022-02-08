@@ -15,4 +15,12 @@
   loop_control:
     label: "sssd-{{ item }}"
   when: sssd_enable_activatable_responders
+  register: _sssd_activatable_responders_disabled
+  listen: restart sssd
+
+- name: Restart sssd to acquire locks held by activatable responders
+  ansible.builtin.service:
+    name: sssd
+    state: restarted
+  when: _sssd_activatable_responders_disabled.changed
   listen: restart sssd
