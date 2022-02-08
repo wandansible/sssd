@@ -19,21 +19,21 @@ sssd_disabled_activatable_responders:
   - pam-priv
 
 # sssd ldap config example:
-#sssd_config:
-#  sssd:
-#    config_file_version: "2"
-#    services: ["nss", "pam"]
-#    domains: "LDAP"
-#  nss:
-#    filter_users: "root"
-#    filter_groups: "root"
-#  domain/LDAP:
-#    id_provider: "ldap"
-#    auth_provider: "ldap"
-#    ldap_uri: "ldaps://{{ ldap_auth_host }}:{{ ldap_auth_port }}"
-#    ldap_id_use_start_tls: "true"
-#    ldap_search_base: "{{ ldap_auth_base }}"
-#    ldap_tls_reqcert: "allow"
-#    cache_credentials: "true"
-#    enumerate: "false"
-#sssd_mkhomedir: true
+# sssd_config:
+#   sssd:
+#     config_file_version: "2"
+#     services: ["nss", "pam"]
+#     domains: "LDAP"
+#   nss:
+#     filter_users: "root"
+#     filter_groups: "root"
+#   domain/LDAP:
+#     id_provider: "ldap"
+#     auth_provider: "ldap"
+#     ldap_uri: "ldaps://{{ ldap_auth_host }}:{{ ldap_auth_port }}"
+#     ldap_id_use_start_tls: "true"
+#     ldap_search_base: "{{ ldap_auth_base }}"
+#     ldap_tls_reqcert: "allow"
+#     cache_credentials: "true"
+#     enumerate: "false"
+# sssd_mkhomedir: true

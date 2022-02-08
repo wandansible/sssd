@@ -1,11 +1,12 @@
 ---
 - name: Create sssd config directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ sssd_config_file | dirname }}"
+    mode: u=rwx,g=x,o=x
 
 - name: Configure sssd
-  template:
+  ansible.builtin.template:
     src: sssd.conf
     dest: "{{ sssd_config_file }}"
     owner: root
@@ -39,14 +40,14 @@
     - sssd_enable_activatable_responders
 
 - name: Install sssd packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ sssd_packages }}"
     install_recommends: no
     state: present
   notify: restart systemd-logind
 
 - name: Enable automatic home directory creation
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/pam.d/common-session
     regexp: 'pam_mkhomedir\.so'
     line: "session required pam_mkhomedir.so skel=/etc/skel/ umask=0022"
@@ -54,7 +55,7 @@
   when: sssd_mkhomedir
 
 - name: Disable automatic home directory creation
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/pam.d/common-session
     regexp: 'pam_mkhomedir\.so'
     state: absent
