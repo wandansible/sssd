@@ -2,6 +2,6 @@
 - ansible.builtin.import_tasks: restart-sssd.yml
 
 - name: restart systemd-logind
-  service:
+  ansible.builtin.service:
     name: systemd-logind
     state: restarted
