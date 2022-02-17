@@ -17,6 +17,22 @@ sssd_disabled_activatable_responders:
   - nss
   - pam
   - pam-priv
+sssd_disabled_activatable_responder_services: "{{
+    sssd_disabled_activatable_responders |
+    difference(['pam-priv']) }}"
+sssd_disabled_activatable_responder_systemd_services: "{{
+    sssd_disabled_activatable_responder_services |
+    product(['service']) |
+    map('join', '.') |
+    list }}"
+sssd_disabled_activatable_responder_systemd_sockets: "{{
+    sssd_disabled_activatable_responders |
+    product(['socket']) |
+    map('join', '.') |
+    list }}"
+sssd_disabled_activatable_responder_systemd_units: "{{
+  sssd_disabled_activatable_responder_systemd_sockets +
+  sssd_disabled_activatable_responder_systemd_services }}"
 
 # sssd ldap config example:
 # sssd_config:

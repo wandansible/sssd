@@ -18,9 +18,7 @@
   ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: yes
-  loop: "{{ sssd_disabled_activatable_responders |
-            product(['socket', 'service']) |
-            map('join', '.') }}"
+  loop: "{{ sssd_disabled_activatable_responder_systemd_units }}"
   loop_control:
     label: "sssd-{{ item }}"
   when: sssd_enable_activatable_responders
