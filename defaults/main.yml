@@ -15,7 +15,8 @@ sssd_manage_activatable_responders: >-
   ansible_distribution == 'Debian' and ansible_distribution_version is version('11', '>=') }}
 
 sssd_enabled_activatable_responders: "{{
-    sssd_config.sssd.services | default([]) |
+    (sssd_config.sssd.services | default([]) +
+    ('pam' in sssd_config.sssd.services | default([])) | ternary(['pam-priv'], [])) |
     difference(sssd_disabled_activatable_responders) }}"
 sssd_enabled_activatable_responder_services: "{{
     sssd_enabled_activatable_responders |
