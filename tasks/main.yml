@@ -21,21 +21,16 @@
   loop: "{{ sssd_disabled_activatable_responder_systemd_units }}"
   loop_control:
     label: "sssd-{{ item }}"
-  when: sssd_enable_activatable_responders
+  when: sssd_manage_activatable_responders
 
 - name: Unmask enabled sssd activatable responders
   ansible.builtin.systemd:
     name: sssd-{{ item }}
     masked: no
-  loop: "{{ sssd_config.sssd.services |
-            difference(sssd_disabled_activatable_responders) |
-            product(['socket', 'service']) |
-            map('join', '.') }}"
+  loop: "{{ sssd_enabled_activatable_responder_systemd_units }}"
   loop_control:
     label: "sssd-{{ item }}"
-  when:
-    - sssd_config.sssd.services is defined
-    - sssd_enable_activatable_responders
+  when: sssd_manage_activatable_responders
 
 - name: Install sssd packages
   ansible.builtin.apt:
@@ -61,14 +56,12 @@
 
 - name: Enable configured sssd activatable responder sockets
   ansible.builtin.service:
-    name: sssd-{{ item }}.socket
+    name: sssd-{{ item }}
     enabled: yes
-  loop: "{{ sssd_config.sssd.services | difference(sssd_disabled_activatable_responders) }}"
+  loop: "{{ sssd_enabled_activatable_responder_systemd_sockets }}"
   loop_control:
-    label: "sssd-{{ item }}.socket"
-  when:
-    - sssd_config.sssd.services is defined
-    - sssd_enable_activatable_responders
+    label: "sssd-{{ item }}"
+  when: sssd_manage_activatable_responders
 
 - name: Enable sssd service
   ansible.builtin.service:
