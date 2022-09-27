@@ -1,0 +1,113 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure SSSD
+    options:
+      sssd_packages:
+        description: List of packages to install
+        type: list
+        elements: str
+        default:
+          - sssd
+          - sssd-tools
+          - sssd-dbus
+          - libpam-sss
+          - libnss-sss
+
+      sssd_config:
+        description:
+          - SSSD configuration
+          - Top-level = name of the section
+          - Second-level = options and their values
+          - See https://linux.die.net/man/5/sssd.conf
+        type: dict
+
+      sssd_config_file:
+        description: Path to configuration file
+        type: str
+        default: /etc/sssd/sssd.conf
+
+      sssd_mkhomedir:
+        description: |
+          If true, when a user logs in for the first time
+          create a home directory for that user
+          with a copy of the files from /etc/skel
+        type: bool
+        default: false
+
+      sssd_manage_activatable_responders:
+        description: |
+          If true, manage systemd activatable responders.
+          By default, this is set to true for distributions
+          Ubuntu 20.04+ and Debian 11+.
+          See https://sssd.io/design-pages/systemd_activatable_responders.html.
+        type: bool
+
+      sssd_enabled_activatable_responders:
+        description: |
+          List of SSSD services to enable as systemd activatable responders.
+          In most cases, this variable and the sssd_enabled_activatable_responder_* variables
+          can be left as their default value.
+          By default, this is pulled from sssd_config.sssd.services
+          and any listed in sssd_disabled_activatable_responders are removed.
+          The default values for the sssd_enabled_activatable_responder_* variables
+          are based on this list.
+        type: list
+        elements: str
+
+      sssd_enabled_activatable_responder_services:
+        description: List of SSSD services that have a corresponding systemd service to enable
+        type: list
+        elements: str
+
+      sssd_enabled_activatable_responder_systemd_services:
+        description: List of systemd services to enable (excluding "sssd-" prefix)
+        type: list
+        elements: str
+
+      sssd_enabled_activatable_responder_systemd_sockets:
+        description: List of systemd sockets to enable (excluding "sssd-" prefix)
+        type: list
+        elements: str
+
+      sssd_enabled_activatable_responder_systemd_units:
+        description: List of systemd units to enable (excluding "sssd-" prefix)
+        type: list
+        elements: str
+
+      sssd_disabled_activatable_responders:
+        description: |
+          List of SSSD services to disable as systemd activatable responders.
+          In most cases, this variable and the sssd_disabled_activatable_responder_* variables
+          can be left as their default value.
+          The default values for the sssd_disabled_activatable_responder_* variables
+          are based on this list.
+        type: list
+        elements: str
+        default:
+          - nss
+          - pam
+          - pam-priv
+
+      sssd_disabled_activatable_responder_services:
+        description: List of SSSD services that have a corresponding systemd service to disable
+        type: list
+        elements: str
+        default:
+          - nss
+          - pam
+
+      sssd_disabled_activatable_responder_systemd_services:
+        description: List of systemd services to disable (excluding "sssd-" prefix)
+        type: list
+        elements: str
+
+      sssd_disabled_activatable_responder_systemd_sockets:
+        description: List of systemd sockets to disable (excluding "sssd-" prefix)
+        type: list
+        elements: str
+
+      sssd_disabled_activatable_responder_systemd_units:
+        description: List of systemd units to disable (excluding "sssd-" prefix)
+        type: list
+        elements: str
